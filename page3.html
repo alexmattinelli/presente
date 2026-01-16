@@ -1,1 +1,130 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novo Momento</title>
 
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .clear-sky {
+      background: linear-gradient(180deg,
+        #cfe9ff 0%,
+        #b7ddff 25%,
+        #9cccf7 50%,
+        #fef3c7 75%,
+        #fde68a 100%);
+    }
+
+    /* sol */
+    .sun {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle,
+        #fff7cc 0%,
+        #fde68a 40%,
+        rgba(253,230,138,0.4) 65%,
+        transparent 80%);
+      border-radius: 50%;
+      box-shadow:
+        0 0 120px rgba(253,230,138,0.8),
+        0 0 220px rgba(253,230,138,0.5);
+      animation: sun-breathe 6s ease-in-out infinite;
+    }
+
+    @keyframes sun-breathe {
+      0%,100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+    }
+
+    /* nuvens claras */
+    .cloud {
+      position: absolute;
+      background: rgba(255,255,255,0.8);
+      border-radius: 999px;
+      filter: blur(20px);
+      animation: cloud-move 30s ease-in-out infinite;
+    }
+
+    @keyframes cloud-move {
+      0%,100% { transform: translateX(0); }
+      50% { transform: translateX(40px); }
+    }
+
+    /* texto */
+    .title {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* botão */
+    .end-button {
+      margin-top: 48px;
+      padding: 14px 40px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(6px);
+      border: 2px solid rgba(255,255,255,0.8);
+      font-size: 1.1rem;
+      transition: .3s;
+    }
+
+    .end-button:hover {
+      background: rgba(255,255,255,0.9);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body class="h-full">
+
+  <div class="clear-sky h-full w-full relative overflow-hidden">
+
+    <!-- sol -->
+    <div class="sun"></div>
+
+    <!-- nuvens -->
+    <div class="cloud" style="width:320px;height:90px;top:18%;left:10%"></div>
+    <div class="cloud" style="width:420px;height:110px;top:25%;left:55%"></div>
+    <div class="cloud" style="width:300px;height:80px;top:35%;left:30%"></div>
+
+    <!-- conteúdo -->
+    <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-8">
+
+      <h1 class="title text-4xl md:text-5xl lg:text-6xl text-slate-800 mb-8">
+        Depois da tempestade,
+        <br class="hidden md:block">
+        o céu se abre.
+      </h1>
+
+      <p class="max-w-3xl text-lg md:text-xl text-slate-700 leading-relaxed">
+        O que antes era ruído agora é silêncio.
+        <br>
+        O que era peso vira aprendizado.
+        <br><br>
+        Não é o fim —  
+        é um novo começo, com mais clareza,
+        mais presença e mais sentido.
+      </p>
+
+      <button class="end-button">
+        seguir em frente
+      </button>
+
+    </div>
+  </div>
+
+</body>
+</html>
