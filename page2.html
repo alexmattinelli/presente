@@ -1,56 +1,58 @@
 <!doctype html>
 <html lang="pt-BR" class="h-full">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Depois da Tempestade</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Courage Quote</title>
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Fonte -->
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      font-family: 'Quicksand', sans-serif;
-      box-sizing: border-box;
-    }
+    body { box-sizing: border-box; }
 
-    body { margin: 0; }
-
-    /* fundo amanhecer */
     .sky-bg {
       background: linear-gradient(180deg,
         #0f172a 0%,
         #1e293b 30%,
         #334155 60%,
         #475569 80%,
-        #f97316 95%,
-        #fb923c 100%);
+        #020617 100%);
     }
 
-    /* aviso inicial */
-    .start-hint {
+    .quote-font { font-family: 'Playfair Display', serif; }
+    .author-font { font-family: 'Lato', sans-serif; }
+
+    .star {
       position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 40;
-      background: rgba(10,10,20,0.6);
-      backdrop-filter: blur(3px);
-      cursor: pointer;
-      animation: pulse 2s infinite;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite;
     }
 
-    @keyframes pulse {
-      0%,100% { opacity: 0.85; }
+    @keyframes twinkle {
+      0%,100% { opacity: .3; }
       50% { opacity: 1; }
     }
 
-    /* botão navegação */
-    .nav-button {
+    /* lua branca */
+    .moon {
+      position: absolute;
+      top: 8%;
+      right: 10%;
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 30px rgba(255,255,255,.6);
+      z-index: 2;
+    }
+
+    /* botão next */
+    .next-button {
       position: absolute;
       right: 24px;
       top: 50%;
@@ -58,127 +60,89 @@
       z-index: 30;
       width: 56px;
       height: 56px;
-      border-radius: 50%;
+      border-radius: 999px;
       background: rgba(255,255,255,0.15);
       border: 2px solid rgba(255,255,255,0.4);
       color: white;
       font-size: 28px;
-      font-weight: 600;
       cursor: pointer;
       backdrop-filter: blur(6px);
-      transition: all 0.3s ease;
-      display: none;
+      transition: 0.3s;
     }
 
-    .nav-button:hover {
-      background: rgba(255,255,255,0.3);
+    .next-button:hover {
+      background: rgba(255,255,255,0.35);
       transform: translateY(-50%) scale(1.1);
     }
 
-    /* sol */
-    .sun {
-      position: absolute;
-      bottom: -80%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 520px;
-      height: 520px;
-      background: radial-gradient(circle,
-        #fde68a 0%,
-        #fbbf24 30%,
-        rgba(251,191,36,0.6) 55%,
-        transparent 75%);
-      border-radius: 50%;
-      filter: blur(1px);
-      z-index: 1;
-      animation: sun-pulse 6s ease-in-out infinite;
+    /* mensagem escondida até tocar música */
+    .hidden-message {
+      opacity: 0;
+      transition: opacity 2s ease;
     }
 
-    @keyframes sun-pulse {
-      0%,100% { transform: translateX(-50%) scale(1); }
-      50% { transform: translateX(-50%) scale(1.05); }
-    }
-
-    /* estrelas */
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: twinkle 3s infinite;
-    }
-
-    @keyframes twinkle {
-      0%,100% { opacity: 0.3; }
-      50% { opacity: 1; }
+    .hidden-message.show {
+      opacity: 1;
     }
   </style>
 </head>
 
-<body class="h-full">
+<body class="h-full m-0 p-0">
 
   <!-- música -->
   <audio id="bg-music" loop>
     <source src="musicawaly.mp3" type="audio/mpeg">
   </audio>
 
-  <div class="sky-bg h-full w-full relative overflow-hidden">
+  <div id="app" class="sky-bg h-full w-full relative overflow-hidden">
 
-    <!-- aviso -->
-    <div id="start-hint" class="start-hint text-center px-6">
-      <p class="text-white text-2xl md:text-3xl font-medium">
-        Clique para continuar
-      </p>
-    </div>
-
-    <!-- sol -->
-    <div class="sun"></div>
+    <!-- lua -->
+    <div class="moon"></div>
 
     <!-- estrelas -->
-    <div class="star" style="top:12%;left:15%"></div>
-    <div class="star" style="top:18%;left:35%"></div>
-    <div class="star" style="top:22%;left:65%"></div>
-    <div class="star" style="top:28%;left:85%"></div>
-    <div class="star" style="top:35%;left:25%"></div>
+    <div class="star" style="top:10%;left:20%"></div>
+    <div class="star" style="top:15%;left:40%"></div>
+    <div class="star" style="top:25%;left:70%"></div>
+    <div class="star" style="top:35%;left:85%"></div>
+    <div class="star" style="top:45%;left:30%"></div>
 
     <!-- conteúdo -->
-    <div id="content" class="relative z-10 h-full flex flex-col items-center justify-center px-8 text-center hidden">
-      <h2 class="text-4xl md:text-6xl font-bold text-gray-100 mb-8">
-        Depois da tempestade
-      </h2>
+    <div class="relative z-10 h-full flex flex-col items-center justify-center px-8 text-center">
 
-      <p class="text-2xl md:text-3xl text-gray-200 max-w-4xl leading-relaxed mb-6">
-        O silêncio que vem depois do caos não é vazio —  
-        é espaço para reconstrução.
-      </p>
+      <!-- ícone lua simples -->
+      <svg width="60" height="60" viewBox="0 0 24 24" fill="white" class="mb-8 opacity-80">
+        <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 109.8 9.8z"/>
+      </svg>
 
-      <p class="text-2xl md:text-3xl text-gray-200 max-w-4xl leading-relaxed">
-        Quando a chuva passa, a luz não pede permissão para existir.
-      </p>
+      <!-- TEXTO (aparece após play) -->
+      <div id="message" class="hidden-message max-w-3xl">
+        <p class="quote-font text-4xl md:text-5xl text-white leading-relaxed italic mb-6">
+          Emerge em si a ruptura com o conflito, pensando no futuro e, principalmente, em si mesme; o autoconhecimento.
+        </p>
+
+        <p class="author-font text-xl text-white opacity-80">
+          Alex Claremont Diaz
+        </p>
+
+        <p class="mt-6 text-sm text-gray-300 opacity-70">
+          clique para abrir
+        </p>
+      </div>
     </div>
 
-    <!-- botão -->
-    <button id="next-btn" class="nav-button" onclick="window.location.href='page3.html'">
-      &gt;
-    </button>
-
+    <!-- botão next -->
+    <button class="next-button" onclick="location.href='page2.html'">&gt;</button>
   </div>
 
   <script>
     const music = document.getElementById('bg-music');
-    const hint = document.getElementById('start-hint');
-    const content = document.getElementById('content');
-    const nextBtn = document.getElementById('next-btn');
+    const message = document.getElementById('message');
 
     function startExperience() {
-      music.play();
       music.volume = 0.6;
-
-      hint.style.display = 'none';
-      content.classList.remove('hidden');
-      nextBtn.style.display = 'flex';
+      music.play().then(() => {
+        message.classList.add('show');
+      });
 
       document.removeEventListener('click', startExperience);
     }
