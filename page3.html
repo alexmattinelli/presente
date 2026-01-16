@@ -10,29 +10,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      box-sizing: border-box;
-      font-family: 'Lato', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .clear-sky {
+    body { height: 100%; font-family: 'Lato', sans-serif; }
+
+    .sky-bg {
       background: linear-gradient(180deg,
-        #cfe9ff 0%,
-        #b7ddff 25%,
-        #9cccf7 50%,
-        #fef3c7 75%,
+        #cce7ff 0%,
+        #b7ddff 30%,
+        #99cfff 60%,
+        #fef3c7 90%,
         #fde68a 100%);
+      height: 100%;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* sol */
+    /* sol com brilho suave */
     .sun {
       position: absolute;
-      top: 10%;
+      top: 12%;
       left: 50%;
       transform: translateX(-50%);
-      width: 280px;
-      height: 280px;
+      width: 220px;
+      height: 220px;
       background: radial-gradient(circle,
         #fff7cc 0%,
         #fde68a 40%,
@@ -40,8 +42,8 @@
         transparent 80%);
       border-radius: 50%;
       box-shadow:
-        0 0 120px rgba(253,230,138,0.8),
-        0 0 220px rgba(253,230,138,0.5);
+        0 0 100px rgba(253,230,138,0.6),
+        0 0 200px rgba(253,230,138,0.3);
       animation: sun-breathe 6s ease-in-out infinite;
     }
 
@@ -50,13 +52,13 @@
       50% { transform: translateX(-50%) scale(1.05); }
     }
 
-    /* nuvens claras */
+    /* nuvens suaves */
     .cloud {
       position: absolute;
       background: rgba(255,255,255,0.8);
       border-radius: 999px;
       filter: blur(20px);
-      animation: cloud-move 30s ease-in-out infinite;
+      animation: cloud-move 35s ease-in-out infinite;
     }
 
     @keyframes cloud-move {
@@ -64,33 +66,122 @@
       50% { transform: translateX(40px); }
     }
 
-    /* texto */
+    /* estrelas sutis */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.6;
+      box-shadow: 0 0 4px rgba(255,255,255,0.7);
+      animation: twinkle 4s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%,100% { opacity:0.3; transform:scale(1); }
+      50% { opacity:1; transform:scale(1.5); }
+    }
+
+    /* conteúdo */
+    .content {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 2rem;
+    }
+
     .title {
       font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
     }
 
-    /* botão */
-    .end-button {
-      margin-top: 48px;
-      padding: 14px 40px;
+    .paragraph {
+      max-width: 700px;
+      font-size: 1.2rem;
+      color: #334155;
+      line-height: 1.6;
+      margin-bottom: 3rem;
+    }
+
+    /* botão próximo */
+    .next-button {
+      position: absolute;
+      right: 24px;
+      bottom: 50px;
+      width: 56px;
+      height: 56px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.4);
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
       backdrop-filter: blur(6px);
-      border: 2px solid rgba(255,255,255,0.8);
-      font-size: 1.1rem;
+      z-index: 50;
       transition: .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .end-button:hover {
-      background: rgba(255,255,255,0.9);
-      transform: scale(1.05);
+    .next-button:hover {
+      background: rgba(255,255,255,0.35);
+      transform: scale(1.1);
     }
+
+    /* aviso inicial */
+    .start-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(2px);
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    .start-hint p {
+      color: white;
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 0.9; }
+      50% { opacity: 1; }
+    }
+
   </style>
 </head>
 
 <body class="h-full">
 
-  <div class="clear-sky h-full w-full relative overflow-hidden">
+  <!-- música -->
+  <audio id="bg-music" loop>
+    <source src="musicawaly.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="sky-bg">
+
+    <!-- estrelas sutis -->
+    <div class="star" style="top:5%;left:10%"></div>
+    <div class="star" style="top:15%;left:30%"></div>
+    <div class="star" style="top:25%;left:70%"></div>
+    <div class="star" style="top:40%;left:50%"></div>
+    <div class="star" style="top:60%;left:20%"></div>
 
     <!-- sol -->
     <div class="sun"></div>
@@ -100,31 +191,57 @@
     <div class="cloud" style="width:420px;height:110px;top:25%;left:55%"></div>
     <div class="cloud" style="width:300px;height:80px;top:35%;left:30%"></div>
 
-    <!-- conteúdo -->
-    <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-8">
+    <!-- aviso inicial -->
+    <div id="start-hint" class="start-hint">
+      <p>Clique para abrir</p>
+    </div>
 
-      <h1 class="title text-4xl md:text-5xl lg:text-6xl text-slate-800 mb-8">
-        Depois da tempestade,
-        <br class="hidden md:block">
-        o céu se abre.
+    <!-- conteúdo -->
+    <div class="content" id="content">
+      <h1 class="title">
+        Após a tempestade, <br class="hidden md:block"> o novo nasce.
       </h1>
 
-      <p class="max-w-3xl text-lg md:text-xl text-slate-700 leading-relaxed">
-        O que antes era ruído agora é silêncio.
-        <br>
-        O que era peso vira aprendizado.
-        <br><br>
-        Não é o fim —  
-        é um novo começo, com mais clareza,
-        mais presença e mais sentido.
+      <p class="paragraph">
+        O que era reprimido,<br>
+        renasce como sol.<br>
+        O brilho perdido, agora é farol.<br>
+        A cidade inteira vê<br>
+        o parecer 
+        do seu ser.<br>
+        Sua essência... quer florescer.
       </p>
-
-      <button class="end-button">
-        seguir em frente
-      </button>
-
     </div>
+
+    <!-- botão próximo -->
+    <button class="next-button" id="next-btn" onclick="window.location.href='page4.html'">
+      &gt;
+    </button>
+
   </div>
+
+  <script>
+    const music = document.getElementById('bg-music');
+    const hint = document.getElementById('start-hint');
+    const content = document.getElementById('content');
+    const nextBtn = document.getElementById('next-btn');
+
+    // botão e conteúdo começam escondidos
+    content.style.display = 'none';
+    nextBtn.style.display = 'none';
+
+    function startExperience() {
+      music.volume = 0.6;
+      music.play().catch(() => {});
+      hint.style.display = 'none';
+      content.style.display = 'flex';
+      nextBtn.style.display = 'flex';
+      document.removeEventListener('click', startExperience);
+    }
+
+    document.addEventListener('click', startExperience);
+  </script>
 
 </body>
 </html>
+
