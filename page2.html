@@ -9,10 +9,10 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
-  <script src="/_sdk/element_sdk.js"></script>
-
   <style>
-    body { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { height: 100%; font-family: 'Lato', sans-serif; }
 
     .sky-bg {
       background: linear-gradient(180deg,
@@ -22,6 +22,10 @@
         #475569 80%,
         #f97316 95%,
         #fb923c 100%);
+      height: 100%;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
     }
 
     .quote-font { font-family: 'Playfair Display', serif; }
@@ -42,7 +46,6 @@
       50% { opacity:1; transform:scale(1.5); }
     }
 
-    /* botão próximo */
     .next-button {
       position: absolute;
       right: 24px;
@@ -59,82 +62,142 @@
       backdrop-filter: blur(6px);
       z-index: 50;
       transition: .3s;
+      display: none; /* começa escondido */
+      align-items: center;
+      justify-content: center;
     }
 
     .next-button:hover {
       background: rgba(255,255,255,0.35);
       transform: translateY(-50%) scale(1.1);
     }
-  </style>
 
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js"></script>
+    /* aviso inicial */
+    .start-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(2px);
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    .start-hint p {
+      color: white;
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 0.9; }
+      50% { opacity: 1; }
+    }
+
+    /* conteúdo */
+    .content {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 2rem;
+      display: none; /* começa escondido */
+    }
+
+    .quote-text {
+      font-size: 2rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 2rem;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .author-name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: white;
+      opacity: 0.9;
+      font-size: 1.5rem;
+      font-weight: 300;
+    }
+
+    .author-name div {
+      width: 3rem;
+      height: 1px;
+      background: white;
+      opacity: 0.4;
+    }
+  </style>
 </head>
 
-<body class="h-full m-0 p-0">
+<body class="h-full">
 
-  <!-- 🎵 MÚSICA -->
-  <audio id="bg-music">
+  <!-- música -->
+  <audio id="bg-music" loop>
     <source src="musicawaly.mp3" type="audio/mpeg">
   </audio>
 
-  <div id="app" class="sky-bg h-full w-full relative overflow-hidden">
+  <div class="sky-bg">
 
-    <div class="sun"></div>
-    <div class="mountain"></div>
-
-    <!-- estrelas (mantidas) -->
+    <!-- estrelas -->
     <div class="star" style="top:10%;left:15%"></div>
     <div class="star" style="top:15%;left:25%"></div>
     <div class="star" style="top:20%;left:8%"></div>
     <div class="star" style="top:12%;left:45%"></div>
     <div class="star" style="top:18%;left:65%"></div>
 
-    <!-- conteúdo original -->
-    <div class="relative z-10 h-full flex flex-col items-center justify-center px-8 text-center">
-      <div class="max-w-4xl relative">
+    <!-- aviso inicial -->
+    <div id="start-hint" class="start-hint">
+      <p>Clique para abrir</p>
+    </div>
 
-        <div class="quote-mark open">"</div>
-        <div class="quote-mark close">"</div>
+    <!-- conteúdo -->
+    <div class="content" id="content">
+      <blockquote class="quote-font quote-text">
+        Às vezes você simplesmente pula e torce para que não seja um penhasco.
+      </blockquote>
 
-        <div class="mb-8">
-          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" class="mx-auto opacity-70">
-            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-              stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <blockquote id="quote-text"
-          class="quote-font quote-glow text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-8 leading-relaxed italic">
-          Às vezes você simplesmente pula e torce para que não seja um penhasco.
-        </blockquote>
-
-        <div class="flex items-center justify-center gap-4">
-          <div class="w-12 h-px bg-white opacity-40"></div>
-          <p id="author-name" class="author-font text-xl md:text-2xl text-white opacity-90 font-light">
-            Alex Claremont Diaz
-          </p>
-          <div class="w-12 h-px bg-white opacity-40"></div>
-        </div>
-
+      <div class="author-name">
+        <div></div>
+        <p>Alex Claremont Diaz</p>
+        <div></div>
       </div>
     </div>
 
-    <!-- ➡️ botão próximo -->
-    <button class="next-button" onclick="location.href='page2.html'">&gt;</button>
+    <!-- botão próximo -->
+    <button class="next-button" id="next-btn" onclick="window.location.href='page3.html'">
+      &gt;
+    </button>
+
   </div>
 
-  <!-- script música -->
   <script>
     const music = document.getElementById('bg-music');
+    const hint = document.getElementById('start-hint');
+    const content = document.getElementById('content');
+    const nextBtn = document.getElementById('next-btn');
 
-    function startMusic() {
+    function startExperience() {
       music.volume = 0.6;
-      music.play().catch(() => {});
-      document.removeEventListener('click', startMusic);
+      music.play().catch(() => {}); // ignora erro autoplay
+      hint.style.display = 'none';
+      content.style.display = 'flex';
+      nextBtn.style.display = 'flex';
+      document.removeEventListener('click', startExperience);
     }
 
-    document.addEventListener('click', startMusic);
+    document.addEventListener('click', startExperience);
   </script>
 
 </body>
