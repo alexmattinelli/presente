@@ -1,1 +1,190 @@
-tese
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Depois da Tempestade</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      font-family: 'Quicksand', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body { margin: 0; }
+
+    /* fundo amanhecer */
+    .sky-bg {
+      background: linear-gradient(180deg,
+        #0f172a 0%,
+        #1e293b 30%,
+        #334155 60%,
+        #475569 80%,
+        #f97316 95%,
+        #fb923c 100%);
+    }
+
+    /* aviso inicial */
+    .start-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+      background: rgba(10,10,20,0.6);
+      backdrop-filter: blur(3px);
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 0.85; }
+      50% { opacity: 1; }
+    }
+
+    /* botão navegação */
+    .nav-button {
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 30;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.4);
+      color: white;
+      font-size: 28px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: all 0.3s ease;
+      display: none;
+    }
+
+    .nav-button:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    /* sol */
+    .sun {
+      position: absolute;
+      bottom: -80%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle,
+        #fde68a 0%,
+        #fbbf24 30%,
+        rgba(251,191,36,0.6) 55%,
+        transparent 75%);
+      border-radius: 50%;
+      filter: blur(1px);
+      z-index: 1;
+      animation: sun-pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes sun-pulse {
+      0%,100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+    }
+
+    /* estrelas */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: twinkle 3s infinite;
+    }
+
+    @keyframes twinkle {
+      0%,100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body class="h-full">
+
+  <!-- música -->
+  <audio id="bg-music" loop>
+    <source src="musicawaly.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="sky-bg h-full w-full relative overflow-hidden">
+
+    <!-- aviso -->
+    <div id="start-hint" class="start-hint text-center px-6">
+      <p class="text-white text-2xl md:text-3xl font-medium">
+        Clique para continuar
+      </p>
+    </div>
+
+    <!-- sol -->
+    <div class="sun"></div>
+
+    <!-- estrelas -->
+    <div class="star" style="top:12%;left:15%"></div>
+    <div class="star" style="top:18%;left:35%"></div>
+    <div class="star" style="top:22%;left:65%"></div>
+    <div class="star" style="top:28%;left:85%"></div>
+    <div class="star" style="top:35%;left:25%"></div>
+
+    <!-- conteúdo -->
+    <div id="content" class="relative z-10 h-full flex flex-col items-center justify-center px-8 text-center hidden">
+      <h2 class="text-4xl md:text-6xl font-bold text-gray-100 mb-8">
+        Depois da tempestade
+      </h2>
+
+      <p class="text-2xl md:text-3xl text-gray-200 max-w-4xl leading-relaxed mb-6">
+        O silêncio que vem depois do caos não é vazio —  
+        é espaço para reconstrução.
+      </p>
+
+      <p class="text-2xl md:text-3xl text-gray-200 max-w-4xl leading-relaxed">
+        Quando a chuva passa, a luz não pede permissão para existir.
+      </p>
+    </div>
+
+    <!-- botão -->
+    <button id="next-btn" class="nav-button" onclick="window.location.href='page3.html'">
+      &gt;
+    </button>
+
+  </div>
+
+  <script>
+    const music = document.getElementById('bg-music');
+    const hint = document.getElementById('start-hint');
+    const content = document.getElementById('content');
+    const nextBtn = document.getElementById('next-btn');
+
+    function startExperience() {
+      music.play();
+      music.volume = 0.6;
+
+      hint.style.display = 'none';
+      content.classList.remove('hidden');
+      nextBtn.style.display = 'flex';
+
+      document.removeEventListener('click', startExperience);
+    }
+
+    document.addEventListener('click', startExperience);
+  </script>
+
+</body>
+</html>
