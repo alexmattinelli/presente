@@ -3,68 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Courage Quote</title>
+  <title>Tempestade</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body { height: 100%; font-family: 'Lato', sans-serif; }
-
-    .sky-bg {
-      background: linear-gradient(180deg,
-        #0f172a 0%,
-        #1e293b 30%,
-        #334155 60%,
-        #475569 80%,
-        #f97316 95%,
-        #fb923c 100%);
-      height: 100%;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
+    * {
+      font-family: 'Quicksand', sans-serif;
+      box-sizing: border-box;
     }
 
-    .quote-font { font-family: 'Playfair Display', serif; }
-    .author-font { font-family: 'Lato', sans-serif; }
+    body { margin: 0; }
 
-    .star {
+    .storm-bg {
+      background: linear-gradient(180deg,
+        #0a0a14 0%,
+        #1a1a2e 20%,
+        #2d2d44 40%,
+        #3d3d5c 60%,
+        #4a4a6a 80%,
+        #1a1a2e 100%);
+    }
+
+    /* chuva */
+    .rain { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+    .rain-drop {
       position: absolute;
       width: 2px;
-      height: 2px;
-      background: white;
+      height: 18px;
+      background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(174,194,224,0.6),
+        rgba(174,194,224,0.9)
+      );
+      animation: rain-fall linear infinite;
+      border-radius: 0 0 6px 6px;
+    }
+
+    @keyframes rain-fall {
+      from { transform: translateY(-100px); opacity: 0; }
+      10% { opacity: 1; }
+      to { transform: translateY(110vh); opacity: 0; }
+    }
+
+    /* relâmpago */
+    .lightning {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      pointer-events: none;
+      animation: lightning-flash 9s infinite;
+    }
+
+    @keyframes lightning-flash {
+      0%,88%,100% { background: rgba(255,255,255,0); }
+      90%,92% { background: rgba(255,255,255,0.15); }
+    }
+
+    /* nuvens */
+    .cloud {
+      position: absolute;
+      background: #2a2a3e;
       border-radius: 50%;
-      box-shadow: 0 0 4px rgba(255,255,255,.8);
-      animation: twinkle 3s ease-in-out infinite;
+      filter: blur(32px);
+      opacity: 0.8;
+      animation: cloud-drift 20s ease-in-out infinite;
     }
 
-    @keyframes twinkle {
-      0%,100% { opacity:.3; transform:scale(1); }
-      50% { opacity:1; transform:scale(1.5); }
+    @keyframes cloud-drift {
+      0%,100% { transform: translateX(0); }
+      50% { transform: translateX(20px); }
     }
 
+    /* botão próximo */
     .next-button {
       position: absolute;
-      right: 24px;
+      right: 32px;
       top: 50%;
       transform: translateY(-50%);
-      width: 56px;
-      height: 56px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.15);
-      border: 2px solid rgba(255,255,255,0.4);
+      z-index: 30;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      border: 2px solid rgba(255,255,255,0.5);
       color: white;
-      font-size: 28px;
+      font-size: 30px;
+      font-weight: 600;
       cursor: pointer;
       backdrop-filter: blur(6px);
-      z-index: 50;
-      transition: .3s;
-      display: none; /* começa escondido */
+      display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
     }
 
     .next-button:hover {
@@ -79,64 +116,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 30;
-      background: rgba(0,0,0,0.4);
+      z-index: 40;
+      background: rgba(10,10,20,0.55);
       backdrop-filter: blur(2px);
       cursor: pointer;
       animation: pulse 2s infinite;
     }
 
-    .start-hint p {
-      color: white;
-      font-size: 2rem;
-      font-weight: 500;
-      text-align: center;
-    }
-
     @keyframes pulse {
       0%,100% { opacity: 0.9; }
       50% { opacity: 1; }
-    }
-
-    /* conteúdo */
-    .content {
-      position: relative;
-      z-index: 10;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 2rem;
-      display: none; /* começa escondido */
-    }
-
-    .quote-text {
-      font-size: 2rem;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 2rem;
-      font-style: italic;
-      line-height: 1.4;
-    }
-
-    .author-name {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      color: white;
-      opacity: 0.9;
-      font-size: 1.5rem;
-      font-weight: 300;
-    }
-
-    .author-name div {
-      width: 3rem;
-      height: 1px;
-      background: white;
-      opacity: 0.4;
     }
   </style>
 </head>
@@ -145,55 +134,88 @@
 
   <!-- música -->
   <audio id="bg-music" loop>
-    <source src="musicawaly.mp3" type="audio/mpeg">
+    <source src="diluvio-alice-guel.mp3" type="audio/mpeg">
   </audio>
 
-  <div class="sky-bg">
+  <div class="storm-bg h-full w-full relative overflow-hidden">
 
-    <!-- estrelas -->
-    <div class="star" style="top:10%;left:15%"></div>
-    <div class="star" style="top:15%;left:25%"></div>
-    <div class="star" style="top:20%;left:8%"></div>
-    <div class="star" style="top:12%;left:45%"></div>
-    <div class="star" style="top:18%;left:65%"></div>
-
-    <!-- aviso inicial -->
-    <div id="start-hint" class="start-hint">
-      <p>Clique para abrir</p>
+    <!-- aviso -->
+    <div id="start-hint" class="start-hint text-center px-8">
+      <p class="text-white text-2xl md:text-3xl font-medium">
+        Clique para abrir
+      </p>
     </div>
 
-    <!-- conteúdo -->
-    <div class="content" id="content">
-      <blockquote class="quote-font quote-text">
-        Às vezes você simplesmente pula e torce para que não seja um penhasco.
-      </blockquote>
+    <!-- nuvens -->
+    <div class="cloud" style="width:300px;height:100px;top:5%;left:10%"></div>
+    <div class="cloud" style="width:400px;height:120px;top:8%;left:40%"></div>
+    <div class="cloud" style="width:350px;height:90px;top:4%;left:70%"></div>
 
-      <div class="author-name">
-        <div></div>
-        <p>Alex Claremont Diaz</p>
-        <div></div>
+    <!-- chuva -->
+    <div class="rain" id="rain-container"></div>
+
+    <!-- relâmpago -->
+    <div class="lightning"></div>
+
+    <!-- conteúdo -->
+    <div id="message"
+      class="relative z-10 h-full flex flex-col items-center justify-center
+             px-8 text-center pb-32 hidden">
+
+      <h1 class="text-4xl md:text-6xl font-bold text-gray-100 mb-8">
+        A tempestade é a reestruturação da vida
+      </h1>
+
+      <div class="max-w-4xl text-lg md:text-xl text-gray-300 leading-relaxed space-y-6">
+        <p>
+          Emerge em si a ruptura com o conflito, pensando no futuro e,
+          principalmente, em si mesme: o autoconhecimento.
+        </p>
+
+        <p>
+          A música <em>Dilúvio</em>, de Alice Guél, reflete esse processo:
+          a tempestade como ruptura e, após ela, o paraíso —
+          a renovação do templo, do nosso eu.
+        </p>
       </div>
     </div>
 
     <!-- botão próximo -->
-    <button class="next-button" id="next-btn" onclick="window.location.href='page3.html'">
+    <button class="next-button" id="next-btn"
+      onclick="window.location.href='page2.html'">
       &gt;
     </button>
 
   </div>
 
   <script>
+    function createRain() {
+      const container = document.getElementById('rain-container');
+      for (let i = 0; i < 120; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'rain-drop';
+        drop.style.left = Math.random() * 100 + '%';
+        drop.style.animationDuration = (Math.random() * 0.6 + 0.6) + 's';
+        drop.style.animationDelay = Math.random() * 2 + 's';
+        container.appendChild(drop);
+      }
+    }
+    createRain();
+
     const music = document.getElementById('bg-music');
-    const hint = document.getElementById('start-hint');
-    const content = document.getElementById('content');
+    const message = document.getElementById('message');
     const nextBtn = document.getElementById('next-btn');
+    const hint = document.getElementById('start-hint');
 
     function startExperience() {
+      music.play();
       music.volume = 0.6;
-      music.play().catch(() => {}); // ignora erro autoplay
+
       hint.style.display = 'none';
-      content.style.display = 'flex';
-      nextBtn.style.display = 'flex';
+      message.classList.remove('hidden');
+      nextBtn.style.opacity = '1';
+      nextBtn.style.pointerEvents = 'auto';
+
       document.removeEventListener('click', startExperience);
     }
 
