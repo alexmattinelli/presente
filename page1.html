@@ -1,1 +1,444 @@
-teste
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Storm Message</title><!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script><!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"><!-- Element SDK -->
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    * {
+      font-family: 'Quicksand', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      box-sizing: border-box;
+    }
+
+    .storm-bg {
+      background: linear-gradient(180deg, 
+        #0a0a14 0%, 
+        #1a1a2e 20%, 
+        #2d2d44 40%, 
+        #3d3d5c 60%, 
+        #4a4a6a 80%, 
+        #1a1a2e 100%);
+    }
+
+    /* Rain animation */
+    .rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .rain-drop {
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(180deg, transparent, rgba(174, 194, 224, 0.5), rgba(174, 194, 224, 0.8));
+      animation: rain-fall linear infinite;
+      border-radius: 0 0 5px 5px;
+    }
+
+    @keyframes rain-fall {
+      0% {
+        transform: translateY(-100px) rotate(15deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(calc(100% + 100px)) rotate(15deg);
+        opacity: 0;
+      }
+    }
+
+    /* Lightning flash */
+    .lightning {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0);
+      pointer-events: none;
+      animation: lightning-flash 8s infinite;
+    }
+
+    @keyframes lightning-flash {
+      0%, 89%, 91%, 93%, 95%, 100% {
+        background: rgba(255, 255, 255, 0);
+      }
+      90%, 92%, 94% {
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    /* Cloud shapes */
+    .cloud {
+      position: absolute;
+      background: #2a2a3e;
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.8;
+      animation: cloud-drift 20s ease-in-out infinite;
+    }
+
+    @keyframes cloud-drift {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(20px);
+      }
+    }
+
+    /* Message glow effect */
+    .message-glow {
+      text-shadow: 
+        0 0 20px rgba(174, 194, 224, 0.3),
+        0 0 40px rgba(174, 194, 224, 0.2),
+        0 0 60px rgba(174, 194, 224, 0.1);
+      animation: text-pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes text-pulse {
+      0%, 100% {
+        text-shadow: 
+          0 0 20px rgba(174, 194, 224, 0.3),
+          0 0 40px rgba(174, 194, 224, 0.2),
+          0 0 60px rgba(174, 194, 224, 0.1);
+      }
+      50% {
+        text-shadow: 
+          0 0 30px rgba(174, 194, 224, 0.5),
+          0 0 50px rgba(174, 194, 224, 0.3),
+          0 0 70px rgba(174, 194, 224, 0.2);
+      }
+    }
+
+    /* Thunder rumble effect on container */
+    .thunder-shake {
+      animation: thunder-rumble 8s ease-in-out infinite;
+    }
+
+    @keyframes thunder-rumble {
+      0%, 88%, 96%, 100% {
+        transform: translateX(0);
+      }
+      90%, 94% {
+        transform: translateX(-2px);
+      }
+      91%, 95% {
+        transform: translateX(2px);
+      }
+    }
+
+    /* Mist effect */
+    .mist {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30%;
+      background: linear-gradient(0deg, rgba(42, 42, 62, 0.6) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* Water puddle at bottom */
+    .water-puddle {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: linear-gradient(180deg, 
+        rgba(42, 60, 90, 0.4) 0%,
+        rgba(30, 45, 70, 0.6) 50%,
+        rgba(20, 35, 60, 0.8) 100%);
+      border-top: 2px solid rgba(174, 194, 224, 0.3);
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    /* Water ripples */
+    .ripple {
+      position: absolute;
+      border: 2px solid rgba(174, 194, 224, 0.4);
+      border-radius: 50%;
+      animation: ripple-expand 2s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes ripple-expand {
+      0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+      }
+      100% {
+        width: 60px;
+        height: 30px;
+        opacity: 0;
+      }
+    }
+
+    /* Water droplets falling into puddle */
+    .water-drop-splash {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(174, 194, 224, 0.8);
+      border-radius: 50%;
+      animation: drop-splash 0.5s ease-out forwards;
+    }
+
+    @keyframes drop-splash {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(5px) scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* Water surface shimmer */
+    .water-shimmer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(174, 194, 224, 0.1) 50%,
+        transparent 100%);
+      animation: shimmer-move 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer-move {
+      0%, 100% {
+        transform: translateX(-100%);
+      }
+      50% {
+        transform: translateX(100%);
+      }
+    }
+
+    /* Small water waves */
+    .water-wave {
+      position: absolute;
+      bottom: 0;
+      width: 200%;
+      height: 20px;
+      background: repeating-linear-gradient(90deg,
+        transparent,
+        transparent 10px,
+        rgba(174, 194, 224, 0.1) 10px,
+        rgba(174, 194, 224, 0.1) 20px);
+      animation: wave-flow 8s linear infinite;
+    }
+
+    @keyframes wave-flow {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full m-0 p-0">
+  <div id="app" class="storm-bg h-full w-full relative overflow-hidden"><!-- Clouds -->
+   <div class="cloud" style="width: 300px; height: 100px; top: 5%; left: 10%;"></div>
+   <div class="cloud" style="width: 400px; height: 120px; top: 8%; left: 40%; animation-delay: -5s;"></div>
+   <div class="cloud" style="width: 350px; height: 90px; top: 3%; left: 70%; animation-delay: -10s;"></div>
+   <div class="cloud" style="width: 250px; height: 80px; top: 12%; left: 25%; animation-delay: -3s;"></div>
+   <div class="cloud" style="width: 320px; height: 110px; top: 6%; left: 55%; animation-delay: -7s;"></div><!-- Rain container -->
+   <div class="rain" id="rain-container"></div><!-- Lightning flash overlay -->
+   <div class="lightning"></div><!-- Mist at bottom -->
+   <div class="mist"></div><!-- Main content -->
+   <div class="thunder-shake relative z-10 h-full flex flex-col items-center justify-center px-6 text-center" style="padding-bottom: 100px;"><!-- Thunder icon -->
+    <div class="mb-8 opacity-70">
+     <svg width="80" height="80" viewbox="0 0 24 24" fill="none" class="mx-auto"><path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z" fill="#aec2e0" stroke="#8ba3c7" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+     </svg>
+    </div><!-- Main message -->
+    <h1 id="main-message" class="message-glow text-4xl md:text-6xl lg:text-7xl font-bold text-gray-100 mb-6 tracking-wide">A tempestade vai passar</h1><!-- Subtitle -->
+    <p id="subtitle-text" class="text-lg md:text-xl lg:text-2xl text-gray-400 font-light max-w-2xl leading-relaxed">Mesmo nas noites mais escuras, a calmaria sempre vem depois da tormenta.</p><!-- Decorative line -->
+    <div class="mt-10 flex items-center gap-4 opacity-50">
+     <div class="w-16 h-px bg-gradient-to-r from-transparent to-gray-500"></div>
+     <svg width="20" height="20" viewbox="0 0 24 24" fill="none" class="text-gray-500"><circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.5" />
+     </svg>
+     <div class="w-16 h-px bg-gradient-to-l from-transparent to-gray-500"></div>
+    </div>
+   </div><!-- Water puddle at bottom -->
+   <div class="water-puddle" id="water-puddle"><!-- Shimmer effect -->
+    <div class="water-shimmer"></div><!-- Ripples container -->
+    <div id="ripples-container"></div>
+   </div>
+  </div>
+  <script>
+    // Generate rain drops
+    function createRain() {
+      const rainContainer = document.getElementById('rain-container');
+      const numberOfDrops = 100;
+
+      for (let i = 0; i < numberOfDrops; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'rain-drop';
+        drop.style.left = Math.random() * 100 + '%';
+        drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+        drop.style.animationDelay = Math.random() * 2 + 's';
+        drop.style.opacity = Math.random() * 0.5 + 0.3;
+        drop.style.height = (Math.random() * 15 + 10) + 'px';
+        rainContainer.appendChild(drop);
+      }
+    }
+
+    // Create water ripples from rain drops
+    function createRipple() {
+      const ripplesContainer = document.getElementById('ripples-container');
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      
+      const xPos = Math.random() * 100;
+      ripple.style.left = xPos + '%';
+      ripple.style.top = '5px';
+      
+      ripplesContainer.appendChild(ripple);
+      
+      // Create splash droplet
+      const splash = document.createElement('div');
+      splash.className = 'water-drop-splash';
+      splash.style.left = xPos + '%';
+      splash.style.top = '5px';
+      ripplesContainer.appendChild(splash);
+      
+      // Remove after animation
+      setTimeout(() => {
+        ripple.remove();
+        splash.remove();
+      }, 2000);
+    }
+
+    // Generate ripples at random intervals
+    function startRipples() {
+      setInterval(() => {
+        if (Math.random() > 0.3) {
+          createRipple();
+        }
+      }, 200);
+    }
+
+    // Default configuration
+    const defaultConfig = {
+      main_message: 'A tempestade vai passar',
+      subtitle_text: 'Mesmo nas noites mais escuras, a calmaria sempre vem depois da tormenta.',
+      primary_color: '#aec2e0',
+      background_color: '#0a0a14',
+      text_color: '#f3f4f6',
+      font_family: 'Quicksand',
+      font_size: 16
+    };
+
+    // Element SDK initialization
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        
+        onConfigChange: async (config) => {
+          const mainMessage = document.getElementById('main-message');
+          const subtitleText = document.getElementById('subtitle-text');
+          
+          // Update text content
+          if (mainMessage) {
+            mainMessage.textContent = config.main_message || defaultConfig.main_message;
+            mainMessage.style.fontFamily = `${config.font_family || defaultConfig.font_family}, sans-serif`;
+            mainMessage.style.color = config.text_color || defaultConfig.text_color;
+          }
+          
+          if (subtitleText) {
+            subtitleText.textContent = config.subtitle_text || defaultConfig.subtitle_text;
+            subtitleText.style.fontFamily = `${config.font_family || defaultConfig.font_family}, sans-serif`;
+          }
+
+          // Update font size scaling
+          const baseSize = config.font_size || defaultConfig.font_size;
+          if (mainMessage) {
+            mainMessage.style.fontSize = `${baseSize * 3}px`;
+          }
+          if (subtitleText) {
+            subtitleText.style.fontSize = `${baseSize * 1.25}px`;
+          }
+        },
+        
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        
+        mapToEditPanelValues: (config) => new Map([
+          ['main_message', config.main_message || defaultConfig.main_message],
+          ['subtitle_text', config.subtitle_text || defaultConfig.subtitle_text]
+        ])
+      });
+    }
+
+    // Initialize effects
+    createRain();
+    startRipples();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bef97e181434eb1',t:'MTc2ODU4NzI3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
