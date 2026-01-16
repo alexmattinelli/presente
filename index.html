@@ -81,34 +81,25 @@
 </head>
 
 <body class="h-full">
-  <div class="gradient-bg h-full w-full flex items-center justify-center px-6 relative">
+  <div class="gradient-bg h-full w-full flex flex-col items-center justify-center px-6 relative">
 
     <!-- estrelas -->
     <div id="stars-container"></div>
 
     <!-- conteúdo -->
-    <div class="text-center fade-in relative z-10">
+    <div class="text-center fade-in relative z-10 mb-16">
 
-      <!-- LUA BRANCA (SVG) -->
+      <!-- LUA BRANCA (SVG CORRETO) -->
       <svg
-        class="icone-lua"
-        width="28"
-        height="28"
+        class="mx-auto mb-6 emoji-float"
+        width="64"
+        height="64"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
         fill="white"
       >
-  <path d="M21 12.79A9 9 0 0 1 11.21 3
-           A7 7 0 1 0 21 12.79z"/>
-</svg>
-
-        viewBox="0 0 64 64"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M42 2C25 6 14 22 18 38s22 26 38 18C40 60 18 44 18 26 18 12 28 2 42 2z"
-          fill="#ffffff"
-        />
+        <path d="M21 12.79A9 9 0 0 1 11.21 3
+                 A7 7 0 1 0 21 12.79z"/>
       </svg>
 
       <h1 class="text-6xl font-bold text-white mb-4 drop-shadow-2xl">
@@ -126,10 +117,15 @@
         Iniciar 🚀
       </button>
     </div>
+
+    <!-- mensagem final -->
+    <footer class="absolute bottom-6 text-white/70 text-sm z-10">
+      Feito por Alex para mostrar o quão incrível a criatividade pode ser ✨
+    </footer>
+
   </div>
 
   <script>
-    // criar estrelas
     function createStars() {
       const container = document.getElementById('stars-container');
       const numStars = 50;
@@ -157,7 +153,6 @@
 
     createStars();
 
-    // redirecionar para page1.html
     document.getElementById('start-btn').addEventListener('click', () => {
       window.location.href = 'page1.html';
     });
