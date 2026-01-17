@@ -74,7 +74,6 @@
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-20px); }
     }
-
   </style>
 </head>
 
@@ -82,7 +81,7 @@
 
   <!-- música -->
   <audio id="bg-music" loop preload="auto">
-    <source src="romance.mp3" type="audio/mpeg">
+    <source src="voce.mp3" type="audio/mpeg">
   </audio>
 
   <div class="rose-bg" id="game-bg">
@@ -90,11 +89,15 @@
     <!-- aviso inicial -->
     <div id="start-hint" class="start-hint"><p>Clique para abrir</p></div>
 
-            Você <br class="hidden md:block"> é...
+    <!-- conteúdo principal -->
+    <div class="content relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+      <h1 class="text-4xl md:text-5xl font-bold text-red-800 mb-6">
+        Você <br class="hidden md:block"> é...
       </h1>
-
-      <p class="paragraph">
-        Clique na tela e descubra<br>
+      <p class="text-xl text-red-700">
+        Clique na tela e descubra palavras que mostram suas qualidades
+      </p>
+    </div>
 
     <!-- botão próximo -->
     <button class="next-button" id="next-btn" onclick="window.location.href='page5.html'">&gt;</button>
