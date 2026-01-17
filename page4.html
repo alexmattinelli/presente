@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Descubra-se</title>
+  <title>Descubra suas Qualidades</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin:0; padding:0; }
     body { height: 100%; font-family: 'Lato', sans-serif; }
 
     .rose-bg {
@@ -20,66 +20,60 @@
       overflow: hidden;
     }
 
+    /* corações flutuantes */
     .heart {
       position: absolute;
-      width: 30px;
-      height: 30px;
-      background: red;
+      width: 40px;
+      height: 40px;
+      background: #b91c1c;
       clip-path: polygon(50% 0%, 61% 8%, 68% 15%, 75% 25%, 80% 35%, 80% 50%, 75% 65%, 68% 75%, 61% 82%, 50% 90%, 39% 82%, 32% 75%, 25% 65%, 20% 50%, 20% 35%, 25% 25%, 32% 15%, 39% 8%);
-      opacity: 0.5;
-      animation: float-heart 6s infinite;
-    }
-
-    @keyframes float-heart {
-      0% { transform: translateY(0) scale(1); opacity:0.5; }
-      50% { transform: translateY(-40px) scale(1.2); opacity:1; }
-      100% { transform: translateY(0) scale(1); opacity:0.5; }
-    }
-
-    .content {
-      position: relative;
-      z-index: 10;
-      height: 100%;
+      opacity: 0.7;
+      cursor: pointer;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 0 2rem;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: white;
+      transition: transform 0.3s;
     }
 
-    .title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: #b91c1c; margin-bottom: 1.5rem; }
-    .paragraph { max-width: 700px; font-size: 1.2rem; color: #7f1d1d; line-height: 1.6; margin-bottom: 2rem; }
-
-    /* input de palavra */
-    .word-input { padding: 0.5rem 1rem; border-radius: 999px; border: 2px solid #b91c1c; font-size: 1.1rem; outline: none; margin-bottom: 1rem; }
-    .word-input:focus { border-color: #f87171; box-shadow: 0 0 10px rgba(248,113,113,0.5); }
-
-    .check-button {
-      padding: 0.5rem 1.5rem; border-radius: 999px; background: #b91c1c; color: white; font-size: 1rem; cursor: pointer;
-      border: none; transition: .3s;
-    }
-    .check-button:hover { background: #f87171; transform: scale(1.05); }
-
-    /* botão próximo */
-    .next-button {
-      position: absolute; right: 24px; bottom: 50px; width: 56px; height: 56px; border-radius: 999px;
-      background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.4);
-      color: white; font-size: 28px; cursor: pointer; backdrop-filter: blur(6px); z-index: 50;
-      display: flex; align-items: center; justify-content: center; transition: .3s;
-    }
-    .next-button:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+    .heart:hover { transform: scale(1.2); }
 
     /* aviso inicial */
     .start-hint {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      z-index: 30; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); cursor: pointer; animation: pulse 2s infinite;
+      position: absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      z-index:30; background:rgba(0,0,0,0.3);
+      backdrop-filter: blur(2px); cursor:pointer; animation:pulse 2s infinite;
     }
-    .start-hint p { color: white; font-size: 2rem; font-weight: 500; text-align: center; }
-    @keyframes pulse { 0%,100% { opacity: 0.9; } 50% { opacity: 1; } }
+    .start-hint p { color:white; font-size:2rem; font-weight:500; text-align:center; }
+    @keyframes pulse { 0%,100%{opacity:0.9;} 50%{opacity:1;} }
 
-    /* resultado */
-    .result { margin-top: 1rem; font-size: 1.3rem; color: #b91c1c; font-weight: 600; min-height: 2rem; }
+    /* botão próximo */
+    .next-button {
+      position: absolute; right: 24px; bottom: 50px;
+      width: 56px; height: 56px; border-radius:999px;
+      background: rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.4);
+      color:white; font-size:28px; cursor:pointer; backdrop-filter:blur(6px);
+      display:flex; align-items:center; justify-content:center; transition:.3s; z-index:50;
+    }
+    .next-button:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+    /* palavras reveladas */
+    .revealed {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #f87171;
+      opacity: 0;
+      animation: fade-in 0.5s forwards;
+    }
+    @keyframes fade-in { from {opacity:0;} to{opacity:1;} }
 
   </style>
 </head>
@@ -91,28 +85,13 @@
     <source src="romance.mp3" type="audio/mpeg">
   </audio>
 
-  <div class="rose-bg">
-
-    <!-- corações flutuando -->
-    <div class="heart" style="top:10%;left:15%"></div>
-    <div class="heart" style="top:25%;left:50%"></div>
-    <div class="heart" style="top:40%;left:30%"></div>
-    <div class="heart" style="top:60%;left:70%"></div>
-    <div class="heart" style="top:75%;left:20%"></div>
+  <div class="rose-bg" id="game-bg">
 
     <!-- aviso inicial -->
     <div id="start-hint" class="start-hint"><p>Clique para abrir</p></div>
 
-    <!-- conteúdo -->
-    <div class="content" id="content">
-      <h1 class="title">Descubra suas qualidades</h1>
-      <p class="paragraph">Digite palavras que refletem quem você é, como "Incrível", "Gentil", "Criativo"...</p>
-
-      <input type="text" id="word-input" class="word-input" placeholder="Digite uma palavra">
-      <button id="check-btn" class="check-button">Verificar</button>
-
-      <div class="result" id="result"></div>
-    </div>
+    <!-- corações clicáveis -->
+    <div id="hearts-container"></div>
 
     <!-- botão próximo -->
     <button class="next-button" id="next-btn" onclick="window.location.href='page5.html'">&gt;</button>
@@ -122,46 +101,45 @@
   <script>
     const music = document.getElementById('bg-music');
     const hint = document.getElementById('start-hint');
-    const content = document.getElementById('content');
     const nextBtn = document.getElementById('next-btn');
+    const heartsContainer = document.getElementById('hearts-container');
 
-    content.style.display = 'none';
-    nextBtn.style.display = 'none';
+    nextBtn.style.display = 'none'; // começa escondido
 
     function startExperience() {
       music.volume = 0.6;
-      music.play().catch(e => { console.log("Erro ao tocar música:", e); });
+      music.play().catch(e=>console.log("Erro:", e));
       hint.style.display = 'none';
-      content.style.display = 'flex';
       nextBtn.style.display = 'flex';
+      createHearts();
       document.removeEventListener('click', startExperience);
     }
 
     document.addEventListener('click', startExperience);
 
-    // palavras válidas
-    const validWords = ["incrível","gentil","criativo","amoroso","forte","inteligente","corajoso","sensível"];
-    const wordInput = document.getElementById('word-input');
-    const checkBtn = document.getElementById('check-btn');
-    const result = document.getElementById('result');
-
-    checkBtn.addEventListener('click', () => {
-      const input = wordInput.value.trim().toLowerCase();
-      if (input === "") return;
-      if (validWords.includes(input)) {
-        result.textContent = `💖 Você é ${input.charAt(0).toUpperCase() + input.slice(1)}!`;
-      } else {
-        result.textContent = `❌ ${input.charAt(0).toUpperCase() + input.slice(1)} não foi reconhecido`;
+    // palavras positivas
+    const words = ["Incrível","Lindo","Amor","Talentoso","Fofo","Corajoso","Gentil","Radiante","Brilhante","Alegre"];
+    
+    function createHearts() {
+      for(let i=0;i<9;i++){
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.top = `${10 + i*15}%`;
+        heart.style.left = `${10 + (i%3)*25}%`;
+        heart.textContent = "?";
+        heart.addEventListener('click', () => revealWord(heart));
+        heartsContainer.appendChild(heart);
       }
-      wordInput.value = "";
-      wordInput.focus();
-    });
+    }
 
-    // permitir Enter para verificar
-    wordInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') checkBtn.click();
-    });
-
+    function revealWord(heart){
+      if(heart.dataset.revealed) return;
+      const word = words[Math.floor(Math.random()*words.length)];
+      heart.textContent = word;
+      heart.dataset.revealed = true;
+    }
   </script>
+
 </body>
 </html>
+
