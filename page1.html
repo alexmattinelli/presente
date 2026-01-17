@@ -81,33 +81,11 @@
 
     /* botão próximo */
     .next-button {
-      position: absolute;
-      right: 32px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 30;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.18);
-      border: 2px solid rgba(255,255,255,0.5);
-      color: white;
-      font-size: 30px;
-      font-weight: 600;
-      cursor: pointer;
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .next-button:hover {
-      background: rgba(255,255,255,0.35);
-      transform: translateY(-50%) scale(1.1);
-    }
+      position: absolute; right: 24px; bottom: 50px;
+      width: 56px; height: 56px; border-radius:999px;
+      background: rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.4);
+      color:white; font-size:28px; cursor:pointer; backdrop-filter:blur(6px);
+      display:flex; align-items:center; justify-content:center; transition:.3s; z-index:50;
 
     /* aviso inicial */
     .start-hint {
@@ -181,7 +159,7 @@
     </div>
 
     <!-- botão próximo -->
-    <button class="next-button" id="next-btn" onclick="window.location.href='page5.html'">&gt;</button>
+    <button class="next-button" id="next-btn" onclick="window.location.href='page2.html'">&gt;</button>
 
   </div>
 
