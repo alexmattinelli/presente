@@ -6,15 +6,10 @@
   <title>Tempestade</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      font-family: 'Quicksand', sans-serif;
-      box-sizing: border-box;
-    }
-
+    * { font-family: 'Quicksand', sans-serif; box-sizing: border-box; }
     body { margin: 0; }
 
     .storm-bg {
@@ -29,21 +24,13 @@
 
     /* chuva */
     .rain { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-
     .rain-drop {
       position: absolute;
-      width: 2px;
-      height: 18px;
-      background: linear-gradient(
-        180deg,
-        transparent,
-        rgba(174,194,224,0.6),
-        rgba(174,194,224,0.9)
-      );
+      width: 2px; height: 18px;
+      background: linear-gradient(180deg, transparent, rgba(174,194,224,0.6), rgba(174,194,224,0.9));
       animation: rain-fall linear infinite;
       border-radius: 0 0 6px 6px;
     }
-
     @keyframes rain-fall {
       from { transform: translateY(-100px); opacity: 0; }
       10% { opacity: 1; }
@@ -58,7 +45,6 @@
       pointer-events: none;
       animation: lightning-flash 9s infinite;
     }
-
     @keyframes lightning-flash {
       0%,88%,100% { background: rgba(255,255,255,0); }
       90%,92% { background: rgba(255,255,255,0.15); }
@@ -73,7 +59,6 @@
       opacity: 0.8;
       animation: cloud-drift 20s ease-in-out infinite;
     }
-
     @keyframes cloud-drift {
       0%,100% { transform: translateX(0); }
       50% { transform: translateX(20px); }
@@ -81,11 +66,24 @@
 
     /* botão próximo */
     .next-button {
-      position: absolute; right: 24px; bottom: 50px;
-      width: 56px; height: 56px; border-radius:999px;
-      background: rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.4);
-      color:white; font-size:28px; cursor:pointer; backdrop-filter:blur(6px);
-      display:flex; align-items:center; justify-content:center; transition:.3s; z-index:50;
+      position: absolute;
+      right: 24px;
+      bottom: 50px;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.4);
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      z-index: 50;
+    }
 
     /* aviso inicial */
     .start-hint {
@@ -100,7 +98,6 @@
       cursor: pointer;
       animation: pulse 2s infinite;
     }
-
     @keyframes pulse {
       0%,100% { opacity: 0.9; }
       50% { opacity: 1; }
