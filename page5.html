@@ -21,25 +21,39 @@
       overflow: hidden;
     }
 
-    .frame {
-      background: rgba(255,255,255,0.7);
-      padding: 20px;
-      border-radius: 25px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    /* quadro estilo Polaroid */
+    .polaroid {
+      background: white;
+      padding: 20px 20px 40px 20px; /* espaço extra embaixo para estilo Polaroid */
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
       text-align: center;
-      max-width: 90%;
+      max-width: 350px;
+      transform: rotate(-3deg);
+      animation: floatIn 1s ease-out forwards;
+      opacity: 0;
     }
 
-    .frame img {
-      max-width: 100%;
-      border-radius: 15px;
+    .polaroid img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
-    h1 {
+    .polaroid h1 {
       font-family: 'Playfair Display', serif;
       color: #b91c1c;
-      margin-bottom: 15px;
+      font-size: 1.5rem;
+      margin-top: 0;
+    }
+
+    /* animação de aparição e leve flutuação */
+    @keyframes floatIn {
+      0% { opacity: 0; transform: translateY(-50px) rotate(-5deg) scale(0.8);}
+      60% { opacity: 1; transform: translateY(10px) rotate(-2deg) scale(1.05);}
+      100% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1);}
     }
 
     /* botão próximo */
@@ -62,21 +76,65 @@
     }
     .next-button:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
 
+    /* aviso inicial */
+    .start-hint {
+      position: absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:30;
+      background:rgba(0,0,0,0.3);
+      backdrop-filter: blur(2px);
+      cursor:pointer;
+      animation:pulse 2s infinite;
+    }
+    .start-hint p { color:white; font-size:2rem; font-weight:500; text-align:center; }
+    @keyframes pulse { 0%,100%{opacity:0.9;} 50%{opacity:1;} }
+
   </style>
 </head>
 
-<body>
+<body class="h-full">
+
+  <!-- música -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="romance.mp3" type="audio/mpeg">
+  </audio>
 
   <div class="pink-bg">
 
-    <div class="frame">
-      <img src="minha-imagem.png" alt="Imagem do Quadro">
+    <!-- aviso inicial -->
+    <div id="start-hint" class="start-hint"><p>Clique para abrir</p></div>
+
+    <!-- Polaroid -->
+    <div class="polaroid" id="polaroid" style="display:none;">
+      <img src="minha-imagem.jpg" alt="Foto">
+      <h1>Momento Especial</h1>
     </div>
 
     <!-- botão próximo -->
-    <button class="next-button" id="next-btn" onclick="window.location.href='index.html'">&gt;</button>
+    <button class="next-button" id="next-btn" style="display:none;" onclick="window.location.href='index.html'">&gt;</button>
 
   </div>
+
+  <script>
+    const music = document.getElementById('bg-music');
+    const hint = document.getElementById('start-hint');
+    const polaroid = document.getElementById('polaroid');
+    const nextBtn = document.getElementById('next-btn');
+
+    function startExperience() {
+      music.volume = 0.6;
+      music.play().catch(() => {});
+      hint.style.display = 'none';
+      polaroid.style.display = 'block';
+      nextBtn.style.display = 'flex';
+      document.removeEventListener('click', startExperience);
+    }
+
+    document.addEventListener('click', startExperience);
+  </script>
 
 </body>
 </html>
