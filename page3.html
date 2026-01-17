@@ -6,12 +6,10 @@
   <title>Novo Momento</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body { height: 100%; font-family: 'Lato', sans-serif; }
 
     .sky-bg {
@@ -88,7 +86,7 @@
       position: relative;
       z-index: 10;
       height: 100%;
-      display: flex;
+      display: none; /* começa escondido */
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -114,11 +112,24 @@
 
     /* botão próximo */
     .next-button {
-      position: absolute; right: 24px; bottom: 50px;
-      width: 56px; height: 56px; border-radius:999px;
-      background: rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.4);
-      color:white; font-size:28px; cursor:pointer; backdrop-filter:blur(6px);
-      display:flex; align-items:center; justify-content:center; transition:.3s; z-index:50;
+      position: absolute; 
+      right: 24px; 
+      bottom: 50px;
+      width: 56px; 
+      height: 56px; 
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15); 
+      border:2px solid rgba(255,255,255,0.4);
+      color:white; 
+      font-size:28px; 
+      cursor:pointer; 
+      backdrop-filter:blur(6px);
+      display:none; /* começa escondido */
+      align-items:center; 
+      justify-content:center; 
+      transition:.3s; 
+      z-index:50;
+    }
 
     /* aviso inicial */
     .start-hint {
@@ -145,7 +156,6 @@
       0%,100% { opacity: 0.9; }
       50% { opacity: 1; }
     }
-
   </style>
 </head>
 
@@ -208,10 +218,6 @@
     const content = document.getElementById('content');
     const nextBtn = document.getElementById('next-btn');
 
-    // botão e conteúdo começam escondidos
-    content.style.display = 'none';
-    nextBtn.style.display = 'none';
-
     function startExperience() {
       music.volume = 0.6;
       music.play().catch(() => {});
@@ -226,4 +232,3 @@
 
 </body>
 </html>
-
