@@ -20,26 +20,6 @@
       overflow: hidden;
     }
 
-    /* corações flutuantes */
-    .heart {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      background: #b91c1c;
-      clip-path: polygon(50% 0%, 61% 8%, 68% 15%, 75% 25%, 80% 35%, 80% 50%, 75% 65%, 68% 75%, 61% 82%, 50% 90%, 39% 82%, 32% 75%, 25% 65%, 20% 50%, 20% 35%, 25% 25%, 32% 15%, 39% 8%);
-      opacity: 0.7;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 0.9rem;
-      color: white;
-      transition: transform 0.3s;
-    }
-
-    .heart:hover { transform: scale(1.2); }
-
     /* aviso inicial */
     .start-hint {
       position: absolute; inset:0;
@@ -60,20 +40,40 @@
     }
     .next-button:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
 
-    /* palavras reveladas */
-    .revealed {
+    /* palavras surgindo */
+    .word {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%,-50%);
       font-family: 'Playfair Display', serif;
-      font-size: 2rem;
+      font-size: 3rem;
       font-weight: 700;
-      color: #f87171;
+      color: #b91c1c;
       opacity: 0;
-      animation: fade-in 0.5s forwards;
+      pointer-events: none;
+      animation: fade-up 1.2s forwards;
     }
-    @keyframes fade-in { from {opacity:0;} to{opacity:1;} }
+    @keyframes fade-up {
+      0% { opacity:0; transform: translate(-50%,-50%) scale(0.5);}
+      50% { opacity:1; transform: translate(-50%,-70%) scale(1.2);}
+      100% { opacity:0; transform: translate(-50%,-120%) scale(1);}
+    }
+
+    /* corações decorativos flutuando */
+    .heart {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: #f87171;
+      clip-path: polygon(50% 0%, 61% 8%, 68% 15%, 75% 25%, 80% 35%, 80% 50%, 75% 65%, 68% 75%, 61% 82%, 50% 90%, 39% 82%, 32% 75%, 25% 65%, 20% 50%, 20% 35%, 25% 25%, 32% 15%, 39% 8%);
+      opacity: 0.5;
+      animation: float 5s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
 
   </style>
 </head>
@@ -90,9 +90,6 @@
     <!-- aviso inicial -->
     <div id="start-hint" class="start-hint"><p>Clique para abrir</p></div>
 
-    <!-- corações clicáveis -->
-    <div id="hearts-container"></div>
-
     <!-- botão próximo -->
     <button class="next-button" id="next-btn" onclick="window.location.href='page5.html'">&gt;</button>
 
@@ -102,44 +99,44 @@
     const music = document.getElementById('bg-music');
     const hint = document.getElementById('start-hint');
     const nextBtn = document.getElementById('next-btn');
-    const heartsContainer = document.getElementById('hearts-container');
+    const bg = document.getElementById('game-bg');
 
-    nextBtn.style.display = 'none'; // começa escondido
+    nextBtn.style.display = 'none'; // botão escondido inicialmente
+
+    const words = ["Incrível","Lindo","Amor","Talentoso","Fofo","Corajoso","Gentil","Radiante","Brilhante","Alegre","Amável","Forte","Doce","Encantador","Maravilhoso"];
 
     function startExperience() {
       music.volume = 0.6;
-      music.play().catch(e=>console.log("Erro:", e));
+      music.play().catch(e=>console.log(e));
       hint.style.display = 'none';
       nextBtn.style.display = 'flex';
-      createHearts();
       document.removeEventListener('click', startExperience);
     }
 
     document.addEventListener('click', startExperience);
 
-    // palavras positivas
-    const words = ["Incrível","Lindo","Amor","Talentoso","Fofo","Corajoso","Gentil","Radiante","Brilhante","Alegre"];
-    
-    function createHearts() {
-      for(let i=0;i<9;i++){
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.style.top = `${10 + i*15}%`;
-        heart.style.left = `${10 + (i%3)*25}%`;
-        heart.textContent = "?";
-        heart.addEventListener('click', () => revealWord(heart));
-        heartsContainer.appendChild(heart);
-      }
-    }
+    // clique na tela para gerar palavra
+    bg.addEventListener('click', (e)=>{
+      if(e.target.id === 'start-hint' || e.target.id === 'next-btn') return;
+      const wordEl = document.createElement('div');
+      wordEl.className = 'word';
+      wordEl.style.left = `${20 + Math.random()*60}%`;
+      wordEl.style.top = `${40 + Math.random()*20}%`;
+      wordEl.textContent = words[Math.floor(Math.random()*words.length)];
+      bg.appendChild(wordEl);
+      setTimeout(()=>wordEl.remove(),1200);
+    });
 
-    function revealWord(heart){
-      if(heart.dataset.revealed) return;
-      const word = words[Math.floor(Math.random()*words.length)];
-      heart.textContent = word;
-      heart.dataset.revealed = true;
+    // corações decorativos
+    for(let i=0;i<15;i++){
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = `${Math.random()*90}%`;
+      heart.style.top = `${Math.random()*90}%`;
+      heart.style.animationDuration = `${4 + Math.random()*3}s`;
+      bg.appendChild(heart);
     }
   </script>
 
 </body>
 </html>
-
